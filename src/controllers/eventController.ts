@@ -523,3 +523,4 @@ export const checkIfJoined = async (req: AuthRequest, res: Response): Promise<vo
     });
   }
 };
+

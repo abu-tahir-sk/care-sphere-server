@@ -17,3 +17,4 @@ router.get('/me', verifyToken, getMe);
 router.put('/profile', verifyToken, updateProfile);
 
 export default router;
+

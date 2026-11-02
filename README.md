@@ -1,7 +1,7 @@
 # CareSphere - Backend API Server
 
 > **Live API URL:** [https://care-sphere-api.onrender.com](https://care-sphere-api.onrender.com)  
-> **Client Website:** [https://care-sphere-platform.vercel.app](https://care-sphere-platform.vercel.app)  
+> **Client Website:** [https://care-sphere-kappa.vercel.app](https://care-sphere-kappa.vercel.app)  
 > **Client Repository:** [https://github.com/abu-tahir-sk/care-sphere-client](https://github.com/abu-tahir-sk/care-sphere-client)
 
 **CareSphere API** is the dedicated RESTful backend service powering the CareSphere social development and community event platform. Built with **Node.js**, **Express**, **TypeScript**, and **MongoDB Atlas**, it handles secure user authentication, event scheduling, volunteer participation, and data validation.

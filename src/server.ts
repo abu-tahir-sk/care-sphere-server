@@ -10,9 +10,6 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-connectDB();
-
 // Middleware
 app.use(
   cors({
@@ -29,7 +26,31 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health Check Endpoint
+// Ensure database connection middleware for serverless invocations
+app.use(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error('Database connection middleware error:', error);
+    next(error);
+  }
+});
+
+// Root & Health Check Endpoints
+app.get('/', (req: Request, res: Response) => {
+  res.send('CareSphere Social Development Events Platform API is live and running!');
+});
+
+app.get('/api', (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    service: 'CareSphere API',
+    version: '1.0.0',
+  });
+});
+
 app.get('/api/health', (req: Request, res: Response) => {
   res.status(200).json({
     status: 'healthy',
@@ -42,11 +63,6 @@ app.get('/api/health', (req: Request, res: Response) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
-
-// Root route
-app.get('/', (req: Request, res: Response) => {
-  res.send('CareSphere Social Development Events Platform API is live and running!');
-});
 
 // Global 404 handler
 app.use((req: Request, res: Response) => {
@@ -66,9 +82,11 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`CareSphere Backend Server running on port ${PORT}`);
-});
+// In local or non-Vercel environments, start the listener
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`CareSphere Backend Server running on port ${PORT}`);
+  });
+}
 
 export default app;
-
